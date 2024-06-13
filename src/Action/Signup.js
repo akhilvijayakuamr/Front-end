@@ -9,6 +9,7 @@ const signup_validator = (
     password,
     conform_password,
     navigate,
+    admin = false
 )=>{
     
     const signup_value = async ()=>{
@@ -29,9 +30,15 @@ const signup_validator = (
     console.log(respones.data)
     console.log(respones.status)
     if (respones.status === 200){
-        console.log(respones.data)
-        console.log("hai")
-        navigate('/')
+        if (!admin){
+            console.log(respones.data)
+            console.log("hai")
+            navigate('/')
+        }else{
+            navigate('/adminHome')
+            console.log("Successfully create")
+        }
+        
     }
     if(respones.status===401){
         console.log(respones.error)
@@ -46,6 +53,11 @@ const signup_validator = (
     }
     
     signup_value()
+
+
+
+
+
 }
 
 export default signup_validator

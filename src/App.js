@@ -9,6 +9,7 @@ import appStore from './Redux/Store';
 import AdminLogin from './Components/AdminLogin';
 import AdminHome from './Components/AdminHome';
 import UpdateUser from './Components/UpdateUser';
+import AdminCreate from './Components/AdminCreate';
 
 
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='/admin' element={<AdminLogin/>}/>
             <Route path='/adminHome' element={<AdminHome/>}/>
             <Route path='/edituser' element={<UpdateUser/>}/>
+            <Route path='/createuser' element={<AdminCreate/>}/>
           </Routes>
         </Router>
       </Provider>

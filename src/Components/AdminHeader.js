@@ -14,10 +14,15 @@ function AdminHeader() {
         Cookies.remove("AdminCookie")
         navigate('/admin')
     }
+
+    const handleCreate=()=>{
+      navigate('/createuser')
+    }
   return (
     <header className="bg-light py-2" >
     <div className="container d-flex justify-content-between align-items-center">
       <h1 className="h6">Admin Home</h1>
+      <button className="btn btn-primary" onClick={handleCreate}>Create User</button>
       <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
     </div>
   </header>

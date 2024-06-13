@@ -3,10 +3,12 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie"
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addUserDetails } from "../Redux/UserSlice";
+import { addUser, addUserDetails } from "../Redux/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const useUserUpdate = () => {
     
+    const navigate = useNavigate()
     const dispatch=useDispatch()
     const userUpdate =async(username,email,id)=>{
        
@@ -45,6 +47,8 @@ const useUserUpdate = () => {
                 if (response.status===200){
                     console.log(response.data)
                     dispatch(addUserDetails(response.data))
+                    dispatch(addUser(response.data))
+                    navigate('/userHome')
                     toast.success('User details updated successfully');
                 }
             }else{

@@ -8,7 +8,7 @@ import { addAdminDetails } from '../Redux/AdminSlice';
 const Get = () => {
     const dispatch = useDispatch();
 
-    const Get_data = async (Urls, admin = false) => {
+    const Get_data = async (Urls, admin=false) => {
         let token;
         let raw_token
 
@@ -16,13 +16,15 @@ const Get = () => {
             raw_token=Cookies.get('UserCookie')
             token=JSON.parse(raw_token)
         } else {
+        
             raw_token=Cookies.get('AdminCookie')
             token=JSON.parse(raw_token)
+            console.log("thoonef",token)
         }
 
         if (token) {
-            console.log("Token:", token);  // Log the token
-            console.log("URL:", Urls);     // Log the URL
+            console.log("Tokennnn:", token);  // Log the token
+            console.log("URLll:", Urls);     // Log the URL
 
             try {
                 const response = await axios.get(Urls, {
@@ -36,8 +38,8 @@ const Get = () => {
 
                 if (response.status === 200) {
                     if (admin) {
-                        console.log(response.data, "admin side");
                         dispatch(addAdminDetails(response.data));
+                        console.log("Success")
                     } else {
                         console.log(response.data[0], "get method");
                         dispatch(addUserDetails(response.data[0]));
