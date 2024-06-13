@@ -1,44 +1,74 @@
-import React from 'react'
-import { useDispatch } from "react-redux";
+
+import { toast } from "react-toastify";
 import Cookies from "js-cookie"
 import axios from "axios";
-import {  addUserDetails } from "../Redux/UserSlice"
-import { toast } from 'react-toastify';
+import { useDispatch } from "react-redux";
+import { addUserDetails } from "../Redux/UserSlice";
 
-
-const useUpdatevalue=()=> {
-    const dispatch = useDispatch()
-
-    const userUpdate = async(username, email, id)=>{
-        const raw_token=Cookies.get('UserCookie')
-        const token=JSON.parse(raw_token)
-        const formData = new FormData();
-        formData.append("username", username)
-        formData.append("email",email)
-        formData.append("id",id)
+const useUserUpdate = () => {
     
-    console.log(formData)
+    const dispatch=useDispatch()
+    const userUpdate =async(username,email,id)=>{
+       
+        const isUsername = /^[A-Za-z][A-Za-z\s-]*$/.test(username);
+        const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
-    if (token){
-        const respones = await axios.patch("http://127.0.0.1:8000/updateUser/",
-            formData,{
-                headers:{
-                    'Authorization':`Bearer ${token.access}`,
-                    "Content-Type": "application/json",
-                }
-            }
-        )
-        if (respones.status===200){
-            console.log("This is very succes data",respones.data)
-            dispatch(addUserDetails(respones.data))
-            toast.success('User details updated successfully');
-        }else{
-            console.log("Error is cammed")
+        if (!isUsername){
+            toast.warning("please enter valid username")
+            return ;
+        } 
+        else if (!isEmail) {
+            toast.warning("Please enter valid Email")
+            return ;
+
         }
-    }
-    }
+           
+        
 
-    return{userUpdate}
+        try{
+            const raw_token=Cookies.get('UserCookie')
+            const token=JSON.parse(raw_token)
+        
+            const formData= new FormData();
+            formData.append("username",username)
+            formData.append("email",email)
+            formData.append("id",id)
+
+            if (token){
+                const response = await axios.patch("http://127.0.0.1:8000/updateUser/",formData,{
+                    header:{
+                        'Authorization':`Bearer ${token.access}`,
+                        "Content-Type": "application/json",
+    
+                    }
+                })
+                if (response.status===200){
+                    console.log(response.data)
+                    dispatch(addUserDetails(response.data))
+                    toast.success('User details updated successfully');
+                }
+            }else{
+
+                toast.warning("Something is wrong. Please log in again")
+            }
+
+            
+
+        }catch(error){
+         
+            console.log(error)
+        }
+        
+
+
+
+
+    };
+
+
+    return {userUpdate}
+     
+
 }
 
-export default useUpdatevalue
+export default useUserUpdate;

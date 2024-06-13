@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import Updatevalue from '../Action/UpdateValue';
-import Get from '../Action/Get'
+import useUserUpdate from '../Action/UpdateValue'
+
 
 function UpdateUser() {
 
@@ -11,14 +11,12 @@ function UpdateUser() {
   const {username, email, id} = data
   const [Username, setUsername] = useState(username)
   const [Email, setEmail] = useState(email)
-  const {UserUpdate} = Updatevalue
-  const {Get_data} = Get()
+  const {userUpdate}=useUserUpdate()
+ 
   console.log(username)
 
 
-  useEffect(()=>{
-    Get_data("http://127.0.0.1:8000/dashboard/")
-  },[])
+ 
 
 
   const handleChange = (e) => {
@@ -44,7 +42,7 @@ function UpdateUser() {
    
    if (Username && Email){
      console.log("update")
-     UserUpdate(Username,Email,id)
+     userUpdate(Username,Email,id)
 
    }
    else{
@@ -66,7 +64,7 @@ function UpdateUser() {
             onChange={handleChange}
             className="form-control"
             id="name"
-            value={username}
+            value={Username}
             name="username"
     
           />
@@ -78,7 +76,7 @@ function UpdateUser() {
             onChange={handleChange}
             className="form-control"
             id="email"
-            value={email}
+            value={Email}
             name="email"
     
           />

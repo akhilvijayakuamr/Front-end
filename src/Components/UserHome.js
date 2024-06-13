@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { addUser } from '../Redux/UserSlice';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
-import Get from '../Action/Get';
+import Get from '../Action/Get'
 
 const UserHome = () => {
   const navigate = useNavigate()
@@ -15,7 +15,9 @@ const UserHome = () => {
         navigate('/edituser')
   }
 
- 
+  useEffect(()=>{
+    Get_data("http://127.0.0.1:8000/dashboard/")
+  },[])
 
  
   return (
